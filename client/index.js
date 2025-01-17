@@ -7,7 +7,7 @@ import { fetchCartons, createCarton, fetchCartonById, updateCarton, deleteCarton
 document.addEventListener('DOMContentLoaded', (event) => {
     const form = document.getElementById('eggForm');
     const cartonForm = document.getElementById('cartonForm'); //Form for creating new cartons
-    const cartonSelect = document.getElementById('cartonSelect'); // Dropdown for carton selection
+    const cartonSelect = document.getElementById('cartonSelect');
     const selectAllCartons = document.getElementById('selectAllCartons'); // Checkbox to select all cartons
     const deleteSelectedCartonsButton = document.getElementById('deleteSelectedCartons');// Button for bulk deletion
 
@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 populateTable(logs); // Update table with logs
                 updateTotalEggs(logs); // Update total egg count
                 populateCartonTable(cartons); // Populate carton table
-                updateCartonSelection(cartons); // Populate carton dropdown
             })
             .catch(error => {
                 console.error('Error fetching logs:', error);
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const entry = {
             date: date,
             eggs: eggs,
-            usable_eggs: usableEggs
+            usable_eggs: usableEggs,
         };
 
         // Send the new egg count to the server
@@ -156,17 +155,6 @@ document.querySelector('#cartonTable').addEventListener('click', function(e) {
         }
     }
 });
-
-    // Function to populate the carton selection dropdown
-    function updateCartonSelection(cartons) {
-        cartonSelect.innerHTML = '<option value="">Select a carton</option>';
-        cartons.forEach(carton => {
-            const option = document.createElement('option');
-            option.value = carton.id;
-            option.textContent = `Carton: ${carton.id} - Expires: ${carton.expiration_date}, Capacity: ${carton.capacity}`;
-            cartonSelect.appendChild(option);
-        });
-    }
 
     function populateCartonTable(cartons) {
         const tableBody = document.querySelector('#cartonTable tbody');
