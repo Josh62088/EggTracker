@@ -130,7 +130,7 @@ if (dateParts.length === 3){
 // Convert cells to editable inputs
 dateCell.innerHTML = `<input type="date" value="${formattedDate}">`;
 eggsCell.innerHTML = `<input type="number" value="${eggsCell.textContent}" min="0" max="1000">`;
-
+cartonID.innerHTML = `<input type="number" value="${cartonID.textContent}">`;
 // Change the edit button to a save button
 event.target.textContent = 'Save';
 event.target.removeEventListener('click', handleEditClick);
