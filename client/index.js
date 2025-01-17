@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         // Validate user input to ensure it's a number within a reasonable range
-        if (!date || isNaN(eggs) || eggs < 0 || eggs > 1000) {
+        if (!data.date || isNaN(data.eggs) || data.eggs < 0 || data.eggs > 1000) {
             alert('Please enter a valid date and number of eggs between 0 and 1000');
             return;
         }
