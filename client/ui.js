@@ -14,11 +14,13 @@ export function populateTable(logs) {
         const cellCheckbox = row.insertCell(0);
         const cellDate = row.insertCell(1);
         const cellEggs = row.insertCell(2);
-        const cellEdit = row.insertCell(3); // Cell for edit button
-        const cellDelete = row.insertCell(4); // Cell for delete button
+        const cellCarton = row.insertCell(3); // New cell for carton ID
+        const cellEdit = row.insertCell(4); // Cell for edit button
+        const cellDelete = row.insertCell(5); // Cell for delete button
         cellCheckbox.innerHTML = `<input type="checkbox" class="select-entry" data-id="${log.id}"> `;
         cellDate.textContent = log.date;
         cellEggs.textContent = log.eggs;
+        cellCarton.textContent = log.carton_id ? ` Carton ${log.carton_id}` : 'Unassigned'; // Display carton_id
         cellEdit.appendChild(createEditButton(log.id)); // Attach Edit button
         cellDelete.appendChild(createDeleteButton(log.id)); // Attach Delete button
     });
@@ -88,13 +90,15 @@ function handleDeleteClick(event) {
 
 // Function to update the total egg count display
 // This is called whenever logs are fetched or altered
-export function updateTotalEggs(logs) {
-    fetchEggLogs() // Using the API function from api.js to get latest logs
-        .then(logs => {
-            const totalEggsDiv = document.getElementById('totalEggs');
-            const totalEggs = logs.reduce((sum, log) => sum + log.eggs, 0);
-            totalEggsDiv.textContent = `Total Eggs: ${totalEggs}`;
-        });    
+export function updateTotalEggs() {
+    // This function assumes you're fetching all egg logs to update totals
+    fetchEggLogs().then(logs => {
+        const totalEggs = logs.reduce((sum, log) => sum + log.eggs, 0);
+        const totalUsableEggs = logs.reduce((sum, log) => sum + (log.usable_eggs || 0), 0);
+        document.getElementById('totalEggs').textContent = `Total Eggs: ${totalEggs}`;
+        document.getElementById('totalUsableEggs').textContent = `Total Usable Eggs: ${totalUsableEggs}`;
+        // Update any other egg count related displays
+    });
 }
 
 //Function to create an edit button for each log entry
@@ -113,28 +117,30 @@ function handleEditClick(event) {
     const row = event.target.closest('tr');
     const dateCell = row.cells[1]; // Assuming date is in the second column
     const eggsCell = row.cells[2]; // Assuming eggs are in the third column
+    const carton_id = row.cells[3]; //Assuming carton ID is the 4th column
 
-// Store the original date before turning it into an input field
-const originalDate = dateCell.textContent;
-dateCell.dataset.originalDate = originalDate; // Store it in a data attribute
+    // Store the original date before turning it into an input field
+    const originalDate = dateCell.textContent;
+    dateCell.dataset.originalDate = originalDate; // Store it in a data attribute
 
-// Convert the date string to the correct format for the date input
-const dateParts = originalDate.split('/');
-let formattedDate = '';
-if (dateParts.length === 3){
-    formattedDate = `${dateParts[2]}-${dateParts[0].padStart(2, '0')}-${dateParts[1].padStart(2, '0')}`;
-} else {
-    formattedDate = originalDate; // If not in expected format, use as is or handle differently
-}
+    // Convert the date string to the correct format for the date input
+    const dateParts = originalDate.split('/');
+    let formattedDate = '';
+    if (dateParts.length === 3){
+        formattedDate = `${dateParts[2]}-${dateParts[0].padStart(2, '0')}-${dateParts[1].padStart(2, '0')}`;
+    } else {
+        formattedDate = originalDate; // If not in expected format, use as is or handle differently
+    }
 
-// Convert cells to editable inputs
-dateCell.innerHTML = `<input type="date" value="${formattedDate}">`;
-eggsCell.innerHTML = `<input type="number" value="${eggsCell.textContent}" min="0" max="1000">`;
-cartonID.innerHTML = `<input type="number" value="${cartonID.textContent}">`;
-// Change the edit button to a save button
-event.target.textContent = 'Save';
-event.target.removeEventListener('click', handleEditClick);
-event.target.addEventListener('click', () => handleSaveClick(id, row));
+    // Convert cells to editable inputs
+    dateCell.innerHTML = `<input type="date" value="${formattedDate}">`;
+    eggsCell.innerHTML = `<input type="number" value="${eggsCell.textContent}" min="0" max="1000">`;
+    cartonIDCell.innerHTML = `<input type="number" value="${cartonID.textContent}">`;
+
+    // Change the edit button to a save button
+    event.target.textContent = 'Save';
+    event.target.removeEventListener('click', handleEditClick);
+    event.target.addEventListener('click', () => handleSaveClick(id, row));
 }
 
 // Function to handle saving changes

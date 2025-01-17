@@ -85,3 +85,11 @@ export function assignEggs(date, usableEggs) {
         return response.json();
     });
 }
+
+// Function to update carton count display
+export function updateCartonCount(fullCartons, partialCartons) {
+    // Assuming you ahve elements in your HTML to display these counts
+    document.getElementById('fullCartonCount').textContent = fullCartons;
+    document.getElementById('partialCartonCount').textContent = partialCartons;
+}
+

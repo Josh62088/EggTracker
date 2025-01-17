@@ -32,39 +32,43 @@ document.addEventListener('DOMContentLoaded', (event) => {
     form.addEventListener('submit', function(e){
         e.preventDefault();
 
+        
+
         const dateInput = document.getElementById('date');
         const eggsInput = document.getElementById('eggs');
         const usableEggsInput = document.getElementById('usableEggs');
-        const date = dateInput.value;
-        const eggs = parseInt(eggsInput.value, 10);
-        const usableEggs = parseInt(usableEggsInput.value, 10) || eggs; // If no usable eggs input, use total eggs
+        
+        const data = {
+            date: dateInput.value,
+            eggs: parseInt(eggsInput.value),
+            usable_eggs: parseInt(usableEggsInput.value, 10) || parseInt(eggsInput.value, 10)
+        };
 
         // Validate user input to ensure it's a number within a reasonable range
         if (!date || isNaN(eggs) || eggs < 0 || eggs > 1000) {
             alert('Please enter a valid date and number of eggs between 0 and 1000');
             return;
         }
-
-        // Prepare data object for the new entry
-        const entry = {
-            date: date,
-            eggs: eggs,
-            usable_eggs: usableEggs,
-        };
-
-        // Send the new egg count to the server
-        logEggCount(entry)
-            .then(data => {
+        
+        // If valdation passes, send the new egg count to the server (API call)
+        logEggCount(data)
+            .then(serverResponse => {
                 // Check if the server returned an error
-                if (data.error) {
-                    alert(data.error);
+                if (serverResponse.error) {
+                    alert(serverResponse.error);
                     return;
                 }
-                // If successful, refresh the logs to show the new entry
-                handleEggAssignment(date, usableEggs); 
+
+                // Update UI based on server response
+                const { fullCartons, partialCartons, message } = serverResponse;
+                updateCartonCount(fullCartons, partialCartons); //Assuming this function exists in ui.js
+                updateTotalEggs(); //Assuming this function exists to refresh egg counts
+                alert(message); // or update a message section in your UI
+
                 // Clear the input field and set focus for the next entry
                 dateInput.value= '';
                 eggsInput.value = '';
+                usableEggsInput.value = '';
                 dateInput.focus();
             })
             .catch((error) => {
