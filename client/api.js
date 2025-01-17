@@ -16,7 +16,15 @@ export function logEggCount(data) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
-    }).then(response => response.json());
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }).then(data => {
+        //Handle the response here, e.g., update UI with fullCartons, partial cartons info
+
+    })
 }
 
 // Function to delete an egg log entry from the server
