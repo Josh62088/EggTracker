@@ -95,9 +95,13 @@ export function updateTotalEggs() {
     fetchEggLogs().then(logs => {
         const totalEggs = logs.reduce((sum, log) => sum + log.eggs, 0);
         const totalUsableEggs = logs.reduce((sum, log) => sum + (log.usable_eggs || 0), 0);
+        const unassignedUsableEggs = logs.reduce((sum, log) => {
+            return log.carton_id === null || log.carton_id === undefined ? sum + (log.usable_eggs || 0) : sum;
+        }, 0);
+        
         document.getElementById('totalEggs').textContent = `Total Eggs: ${totalEggs}`;
         document.getElementById('totalUsableEggs').textContent = `Total Usable Eggs: ${totalUsableEggs}`;
-        // Update any other egg count related displays
+        document.getElementById('UsableEggNotAssignedToCarton').textContent = `Usable Eggs Not Assigned to Cartons: ${unassignedUsableEggs}`;
     });
 }
 
