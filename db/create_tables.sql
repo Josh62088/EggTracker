@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS egg_logs(
     eggs INTEGER NOT NULL,
     usable_eggs INTEGER,
     carton_id INTEGER
-    carton_assignment INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS cartons (
@@ -19,4 +18,3 @@ CREATE TABLE IF NOT EXISTS waste (
     date TEXT NOT NULL,
     eggs INTEGER NOT NULL
 );
-
