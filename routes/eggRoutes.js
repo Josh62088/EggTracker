@@ -13,7 +13,7 @@ router.post('/logEgg', (req, res) => {
     }
 
     // Using the database module to insert a new entry
-    db.run('INSERT INTO egg_logs(date, eggs, usable_eggs, carton_assignment) VALUES (?, ?,?, ?)', [date, eggs, usable_eggs, carton_assignment], function(err){
+    db.run('INSERT INTO egg_logs(date, eggs, usable_eggs, carton_id) VALUES (?, ?,?, ?)', [date, eggs, usable_eggs, carton_id], function(err){
         if (err) {
             console.error('Database error inserting egg log:', err);
             console.error('Request body:', req.body); // Log what was recieved
