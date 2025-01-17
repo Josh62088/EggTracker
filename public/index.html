@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chicken Tracker</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+            <h3>Eggs Collected</h3>
+            <form id="eggForm">
+                <label for="date">Date Collected:</label>
+                <input type="date" id="date" name="date" required><br>
+                <label for="eggs">Enter Number of Eggs Collected:</label>
+                <input type="number" id="eggs" name="eggs" min="0" max="1000"><br>
+                <label for="eggs">Enter Number of Usable Eggs collected:</label>
+                <input type="number" id="usableEggs" name="usableEggs" min="0" max="1000"><br>
+                <label for="cartonSelect">Assign to Carton:</label>
+                <select id="cartonSelect" name="carton"></select><br>
+                <input type="submit" value="Submit">
+             </form>
+             <div id="totalEggs">Total Eggs: 0</div>
+             <div id="totalUsableEggs">Total Usable Eggs:</div>
+             <div id="UsableEggNotAssignedToCarton">Usable Eggs Not Assigned to Cartons:</div>
+             <table id="eggTable">
+                <thead> 
+                    <tr>
+                        <th>Select</th>
+                        <th>Date:</th>
+                        <th>Eggs:</th>
+                        <th>Carton:</th>
+                        <th colspan="2">Action:</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+             </table>
+             <button id="deleteSelected">Delete Selected</button>
+
+             <h3>Managed Cartons</h3>
+             <form id="cartonForm">
+                <label for="expirationDate">Expiration Date:</label>
+                <input type="date" id="expirationDate" name="expirationDate" required><br>
+                <label for="capacity">Capacity:</label>
+                <input type="number" id="capacity" name="capacity" min="1" required><br>
+                <input type="submit" value="Create Carton">
+             </form>
+            <table id="cartonTable">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAllCartons"></th>
+                        <th>ID</th>
+                        <th>Expiration Date:</th>
+                        <th>Capacity:</th>
+                        <th>Available Space:</th>
+                        <th>Action:</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button id="deleteSelectedCartons">Delete Selected Cartons</button>
+
+             <script type="module" src="/client/index.js"></script>
+    </body>
+</html>

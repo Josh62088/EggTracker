@@ -1,0 +1,17 @@
+{
+  "name": "egg-tracker",
+  "version": "1.0.0",
+  "description": "a program to track egg production and sales",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Josh M",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "egg-tracker": "file:",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0"
+  }
+}
