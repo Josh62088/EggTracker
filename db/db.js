@@ -25,8 +25,8 @@ const db = new sqlite3.Database(path.join(__dirname, 'eggTracker.db'), (err) => 
 
              // Run SQL scripts
             runSqlFile(path.join(__dirname, 'create_tables.sql'));
-            runSqlFile(path.join(__dirname, 'seed_data.sql'));
             runSqlFile(path.join(__dirname, 'alter_tables.sql'));
+            runSqlFile(path.join(__dirname, 'seed_data.sql'));
         }
         
     });
